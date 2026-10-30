@@ -1,0 +1,24 @@
+
+CREATE TABLE IF NOT EXISTS vehicles (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  driver VARCHAR(100) NOT NULL,
+  plate_number VARCHAR(30) UNIQUE NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'Active',
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL,
+  speed INTEGER NOT NULL DEFAULT 0,
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS shipments (
+  id SERIAL PRIMARY KEY,
+  tracking_number VARCHAR(40) UNIQUE NOT NULL,
+  customer VARCHAR(120) NOT NULL,
+  origin VARCHAR(120) NOT NULL,
+  destination VARCHAR(120) NOT NULL,
+  status VARCHAR(30) NOT NULL DEFAULT 'Pending',
+  vehicle_id INTEGER REFERENCES vehicles(id) ON DELETE SET NULL,
+  estimated_delivery DATE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
